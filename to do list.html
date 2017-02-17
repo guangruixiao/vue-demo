@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="vue.js"></script>
+	<style>
+	 #todo {width:400px;height400px; margin:150px auto;}
+	 ol {width: 250px;heiht:80px;}   
+     .show button  {display: inline-block; margin-left: 200px;}
+	</style>
+	
+</head>
+<body>
+
+<div id="todo">
+	<input type="text" v-on:click="cleanTip" v-model="message" >
+	<button v-on:click="addMessage">添加</button>
+	<ol >      
+       <todo-item class="show" v-on:del="delmessage" v-for="todo in todos" v-bind:tod="todo"></todo-item>           
+    </ol>
+	
+</div>
+ 
+<script>
+
+    Vue.component('todo-item', {
+      props: ['tod'],
+      template: '<li>{{ tod }}  <button v-on:click="transmessage">删除</button></li> ',
+      methods: {
+        transmessage: function () {
+       	this.$emit('del',this.tod) ;       
+              
+        }
+      }
+   });
+
+  
+	var todo = new Vue({
+	  el: '#todo',
+	  data: {
+	    message:"请输入...",
+	    todos: [
+	         
+	        ]
+	  },
+	  methods: {
+	    addMessage: function () {
+		    if (this.message=="请输入...") {
+
+		    	alert("点击前请输入内容")
+
+		    } else {
+		    	this.todos.push(this.message);
+	    	    this.message="请输入...";
+		    }
+	    	
+	    		    		    		    		      
+	    },
+
+	    cleanTip: function() {
+	    	this.message=""	  ;  	
+	    },	   
+
+	    delmessage: function (m) {
+	    	this.todos.splice((this.todos.indexOf(m)),1); 	        
+           
+        }
+	  }
+	});
+</script>
+</body>
+</html>
