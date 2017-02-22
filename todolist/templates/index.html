@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+    <title>TODO LIist</title>
+    
+    <script src="http://127.0.0.1:5000/static/lib/jquery.min.js"></script>
+    <link href="http://127.0.0.1:5000/static/lib/bootstrap.min.css"  rel="stylesheet">
+    <script src="http://127.0.0.1:5000/static/lib/bootstrap.min.js"  ></script>
+    <script src="http://cdn.bootcss.com/vue/2.1.10/vue.js"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:5000/static/css/todo.css"  >
+
+  </head>
+
+  <body>
+
+    <div id="datashow"></div>
+
+    <div  id="todo">
+      <!--警告框-->    
+       <div v-bind:class="{ warn: isActive }" class="alert alert-warning in " role="alert">请您先输入内容
+       </div>
+  
+      <!--搜索输入框--> 
+	     <div class="row">
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input type="text" class="form-control"  v-on:click="cleanTip" v-model="    message">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" v-on:click="addMessage">添加</button>
+              <button class="btn btn-default" type="button" id="backdata">后台数据</button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+       </div><!-- /.row -->
+
+      <!--列表框--> 
+	      <div class="list-group">      
+          <a class="list-group-item"  v-for="todo in todos" v-bind:tod="todo">
+            <span v-text="todo"></span> 
+            <button  v-on:click="delMessage(todo)" class="btn btn-warning" >删除</button>
+          </a>           
+        </div>	
+    </div>
+
+    
+
+    
+ 
+<script>
+    
+ $(document).ready(function(){
+   $("#backdata").click(function(){
+     $("#datashow").load("http://127.0.0.1:5000/data");
+   });
+ });
+  
+	var todo = new Vue({
+	  el: '#todo',
+	  data: {
+	    message:"请输入...",
+	    isActive:true,
+	    todos: [ ]       
+	  },
+
+
+	  methods: {
+        
+	    addMessage: function () {
+		    if (this.message==="请输入..." || this.message==="") {
+
+		         this.isActive=false;	  
+
+             var that = this;
+
+             setTimeout(function() {
+
+               that.isActive = true;
+
+             },1500);       
+
+		    } else {
+		    	
+		    	this.todos.push(this.message);
+	    	  this.message="请输入...";
+		    }    	    		    		    		    		      
+	    },
+	  
+	    delMessage: function (m) {
+	    	this.todos.splice((this.todos.indexOf(m)),1); 	                  
+      },
+
+
+      cleanTip: function() {
+        this.message=""   ;   
+      },
+	  }
+	});
+</script>
+
+</body>
+</html>
