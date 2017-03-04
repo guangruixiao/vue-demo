@@ -17,7 +17,7 @@ def index():
 
 @app.route("/data")
 def test():
-	return "<p>呵呵，后台暂时没有内容，不过这条数据来自后台!</p>"
+	return "<p>呵呵，后台暂时木有内容，不过这条数据来自后台!</p>"
 
 
 
