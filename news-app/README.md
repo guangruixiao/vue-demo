@@ -1,4 +1,4 @@
-# sec-vue
+# news-app
 
 > A Vue.js project
 
