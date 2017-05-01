@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>messi-show</title>
+
+	<style>
+
+        #show {
+        	margin-left: 250px;
+			margin-top: 20px;
+        }
+		.pic {		
+			width:400px;
+			height:300px;
+		}
+		.messi-show {
+			display: inline-block;
+			margin-left: 30px;
+			width:30px;			
+			border:solid 1px red;
+			cursor: pointer;
+		}
+	
+	</style>
+</head>
+<body>
+
+	<ul class="messi">
+		<li class="messi-show" id="mm">1</li>
+		<li class="messi-show" id="mm">2</li>
+		<li class="messi-show" id="mm">3</li>
+		<li class="messi-show" id="mm">4</li>
+		<li class="messi-show" id="mm">5</li>
+	</ul> 
+	<div id="show">
+		 <span class="name" ></span>
+		 <P class="count"></P>
+		 <img class="pic" src="" alt="">
+	</div>
+
+	<script>	
+
+	window.onload=function() {
+			var data={
+				admin:false,
+				name:["第一张","第二张","第三张","第四张","第五张"],
+				url :["ad0.jpg","ad1.jpg","ad2.jpg","ad3.jpg","ad4.jpg"],
+				num: [0,0,0,0,0]
+			};
+
+			var controller={
+				getshow:function(index) {
+					var name=data.name[index];
+					var url=data.url[index];
+					var num=data.num[index];
+					view.rendershow(name,url,num);					
+				},
+				addnum:function(srcid) {				
+					var index=(data.url).indexOf(srcid);					 
+					 data.num[index]=(data.num[index])+1;
+									
+					 view.rendernum((data.num[index]));					
+				},
+				init:function() {
+					view.init();				
+				}
+			};
+
+			var view={
+				init:function() {
+					var list=document.getElementsByClassName('messi-show');
+					    this.show=document.getElementById('show');
+					    this.pic=this.show.getElementsByClassName('pic')[0];
+					    this.count=this.show.getElementsByClassName('count')[0];
+
+					    for (var i = 0; i < list.length; i++) {
+					    	list[i].addEventListener("click",(function(copyi) {
+					    	return function () {
+					    			controller.getshow(copyi);
+					    		};					    		
+					    	})(i));
+					    }
+
+					    this.pic.addEventListener("click",function(e) {
+					      
+			              var  srcid= e.target.attributes.src.value;
+			                   controller.addnum(srcid);
+			       					    	
+					    });
+
+					 view.rendershow("第一张","ad0.jpg","0");												
+				},
+
+				renderlist:function() {
+					
+				},
+
+				rendershow:function(name,url,num) {
+
+						this.pic.src=url;	
+
+				    var showname=this.show.getElementsByClassName('name')[0];
+				        showname.innerHTML=name;
+				   
+				        this.count.innerHTML=num;
+
+				},
+
+				rendernum:function(num) {
+                        this.count.innerHTML=num;
+					
+				}
+
+			};
+
+			controller.init();			
+		};
+
+		
+	</script>
+</body>
+</html>
